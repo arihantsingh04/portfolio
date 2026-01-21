@@ -1,0 +1,90 @@
+﻿/* PROCESS SECTION REVAMP */
+.process-section {
+  padding: 100px 0;
+  background: #030303; /* Pure Black Background */
+}
+
+.section-header-compact {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 60px;
+}
+
+.section-title-sm {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.5rem;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.draw-line-horizontal {
+  height: 1px;
+  flex-grow: 1;
+  background: linear-gradient(90deg, #3b82f6, transparent);
+}
+
+/* PIPELINE GRID */
+.process-pipeline {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3x2 Grid for space efficiency */
+  gap: 24px;
+}
+
+.pipeline-step {
+  padding: 32px 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s ease, background 0.3s ease;
+  will-change: transform, opacity;
+}
+
+.pipeline-step:hover {
+  background: rgba(59, 130, 246, 0.03);
+  border-color: rgba(59, 130, 246, 0.4);
+  transform: translateY(-5px) !important; /* Subtle lift */
+}
+
+.step-number-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: #3b82f6;
+  margin-bottom: 20px;
+}
+
+.step-icon-box {
+  color: #fff;
+  margin-bottom: 16px;
+}
+
+.step-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.step-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.5;
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 1024px) {
+  .process-pipeline {
+    grid-template-columns: 1fr 1fr; /* 2x3 Grid */
+  }
+}
+
+@media (max-width: 600px) {
+  .process-pipeline {
+    grid-template-columns: 1fr; /* Vertical stack for mobile */
+  }
+  .section-title-sm {
+    font-size: 1.8rem;
+  }
+}

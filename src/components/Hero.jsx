@@ -1,4 +1,5 @@
 ﻿import React, { useEffect, useState, useRef } from "react";
+import gsap from "gsap";
 import "./Hero.css";
 
 const screenshots = [
@@ -9,20 +10,57 @@ const screenshots = [
 
 export const Hero = () => {
   const [active, setActive] = useState(0);
+  const [activeSection, setActiveSection] = useState("home");
   const heroRef = useRef(null);
+  const navRef = useRef(null);
+  const linksRef = useRef(null);
 
   useEffect(() => {
+    // 1. Screenshot Carousel
     const interval = setInterval(() => {
       setActive((prev) => (prev + 1) % screenshots.length);
     }, 3500);
+
+    // 2. Entrance Animation: Name-only pill -> Expand -> Links Reveal
+    const tl = gsap.timeline({ delay: 0.5 });
+    
+    tl.fromTo(navRef.current, 
+      { width: "135px", opacity: 0, y: -20 }, 
+      { width: "135px", opacity: 1, y: 0, duration: 0.8, ease: "power4.out" }
+    )
+    .to(navRef.current, { 
+      width: "720px", 
+      duration: 1.2, 
+      ease: "expo.inOut",
+      delay: 0
+    })
+    .fromTo(linksRef.current, 
+      { opacity: 0, x: 15 }, 
+      { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" },
+      "-=0.4"
+    );
+
+    // 3. Section Tracking
+    const observerOptions = { threshold: 0.6 };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    }, observerOptions);
+
+    const sections = ["home", "work", "process", "stack"];
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
 
     const handleMouseMove = (e) => {
       if (!heroRef.current) return;
       const { clientX, clientY } = e;
       const moveX = (clientX - window.innerWidth / 2) / 50;
       const moveY = (clientY - window.innerHeight / 2) / 50;
-      
-      // Update CSS variables for subtle parallax
       heroRef.current.style.setProperty('--move-x', `${moveX}px`);
       heroRef.current.style.setProperty('--move-y', `${moveY}px`);
     };
@@ -31,26 +69,31 @@ export const Hero = () => {
     return () => {
       clearInterval(interval);
       window.removeEventListener('mousemove', handleMouseMove);
+      observer.disconnect();
     };
   }, []);
 
   return (
     <>
-      <header className="modern-nav">
-        <div className="nav-container">
-          <div className="nav-logo">AS</div>
-          <nav className="nav-links">
-            <a href="#work">Work</a>
-            <a href="#process">Process</a>
-            <a href="#contact" className="nav-cta-minimal">Start a Project</a>
-          </nav>
+      <nav className="glass-nav-container">
+        <div className="glass-nav-wrapper" ref={navRef}>
+          <div className="liquid-glass-border"></div>
+          <div className="nav-content">
+            <div className="nav-name">ARIHANT SINGH</div>
+            
+            <div className="nav-links-group" ref={linksRef}>
+              <a href="#home" className={`nav-item interactive ${activeSection === 'home' ? 'active' : ''}`}>Home</a>
+              <a href="#work" className={`nav-item interactive ${activeSection === 'work' ? 'active' : ''}`}>Work</a>
+              <a href="#process" className={`nav-item interactive ${activeSection === 'process' ? 'active' : ''}`}>Process</a>
+              <a href="#stack" className={`nav-item interactive ${activeSection === 'stack' ? 'active' : ''}`}>Stack</a>
+              <a href="/resume.pdf" target="_blank" className="nav-item interactive resume-link">Resume</a>
+            </div>
+          </div>
         </div>
-      </header>
+      </nav>
 
-      <section className="hero" ref={heroRef}>
-        {/* Light Rays Effect */}
+      <section className="hero" id="home" ref={heroRef}>
         <div className="light-rays" />
-        
         <div className="hero-content" style={{ transform: 'translate(calc(var(--move-x) * -1), calc(var(--move-y) * -1))' }}>
           <h1 className="reveal-text">
             I build <span>production-ready</span><br />
@@ -79,12 +122,7 @@ export const Hero = () => {
             <div className="display">
               <div className="camera-hole" />
               {screenshots.map((src, i) => (
-                <img
-                  key={i}
-                  src={src}
-                  className={`screen ${i === active ? "active" : ""}`}
-                  alt="App Interface"
-                />
+                <img key={i} src={src} className={`screen ${i === active ? "active" : ""}`} alt="App Interface" />
               ))}
               <div className="screen-reflection" />
             </div>

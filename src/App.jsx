@@ -15,6 +15,7 @@ function App() {
   const cursorRef = useRef(null);
   const cursorDotRef = useRef(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const bgParticlesRef = useRef([]);
 
   // Custom Cursor Interaction
   useEffect(() => {
@@ -56,10 +57,58 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Background Particles Animation
+  useEffect(() => {
+    const createParticles = () => {
+      bgParticlesRef.current = [];
+      for (let i = 0; i < 12; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'bg-particle';
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.animationDelay = `${Math.random() * 20}s`;
+        particle.style.animationDuration = `${10 + Math.random() * 20}s`;
+        appRef.current.appendChild(particle);
+        bgParticlesRef.current.push(particle);
+      }
+    };
+
+    createParticles();
+
+    return () => {
+      bgParticlesRef.current.forEach(particle => {
+        if (particle.parentNode) {
+          particle.parentNode.removeChild(particle);
+        }
+      });
+    };
+  }, []);
+
   // Global Animations
   useEffect(() => {
     const ctx = gsap.context(() => {
-      
+      // Subtle background parallax
+      gsap.to('.bg-layer-1', {
+        yPercent: -20,
+        ease: "none",
+        scrollTrigger: {
+          trigger: appRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.5
+        }
+      });
+
+      gsap.to('.bg-layer-2', {
+        yPercent: -10,
+        ease: "none",
+        scrollTrigger: {
+          trigger: appRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.3
+        }
+      });
+
       // PROJECT ROWS
       gsap.utils.toArray(".project-row").forEach((row) => {
         gsap.from(row, {
@@ -92,12 +141,12 @@ function App() {
         });
       }
 
-      // TECH STACK BENTO REVEAL (The Fixed Part)
+      // TECH STACK BENTO REVEAL
       const techCards = gsap.utils.toArray(".tech-group-card");
       if (techCards.length > 0) {
         gsap.from(techCards, {
           scrollTrigger: {
-            trigger: ".tech-bento-grid", // Trigger whole grid at once
+            trigger: ".tech-bento-grid",
             start: "top 80%",
             toggleActions: "play none none none"
           },
@@ -106,7 +155,7 @@ function App() {
           duration: 1,
           stagger: 0.2,
           ease: "power3.out",
-          clearProps: "all" // CRITICAL: Removes opacity/transform after animation
+          clearProps: "all"
         });
       }
 
@@ -123,7 +172,6 @@ function App() {
           ease: "power2.inOut"
         });
       });
-
     }, appRef);
 
     return () => ctx.revert();
@@ -131,10 +179,19 @@ function App() {
 
   return (
     <div ref={appRef} className="app-container">
+      {/* Animated Background Layers */}
+      <div className="bg-layer-1" />
+      <div className="bg-layer-2" />
+      
+      {/* Custom Cursor */}
       <div ref={cursorRef} className="custom-cursor" />
       <div ref={cursorDotRef} className="cursor-dot" />
+      
+      {/* UI Elements */}
       <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} />
       <div className="grain-overlay" />
+      
+      {/* Main Content */}
       <Hero />
       <Projects />
       <Expertise />

@@ -1,15 +1,22 @@
-﻿import React from 'react';
+﻿import React, { useRef, useEffect } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Icons } from './Icons';
 import './Expertise.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
 const SearchIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <circle cx="11" cy="11" r="8"/>
-    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    <circle cx="11" cy="11" r="8" />
+    <line x1="21" y1="21" x2="16.65" y2="16.65" />
   </svg>
 );
 
 export const Expertise = () => {
+  const sectionRef = useRef(null);
+  const trackRef = useRef(null);
+
   const processSteps = [
     {
       id: "01",
@@ -49,21 +56,56 @@ export const Expertise = () => {
     }
   ];
 
-  return (
-    <section className="process-section" id="process">
-      <div className="container">
-        <div className="section-header-compact">
-          <h2 className="section-title-sm">My Process</h2>
-          <div className="draw-line-horizontal"></div>
-        </div>
+  useEffect(() => {
+    let ctx = gsap.context(() => {
+      let mm = gsap.matchMedia();
 
-        <div className="process-pipeline">
+      // Only apply horizontal scroll on desktop/tablet landscape
+      mm.add("(min-width: 901px)", () => {
+        const track = trackRef.current;
+
+        const getScrollAmount = () => {
+          let trackWidth = track.scrollWidth;
+          return -(trackWidth - window.innerWidth);
+        };
+
+        gsap.to(track, {
+          x: getScrollAmount,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: () => `+=${Math.abs(getScrollAmount())}`,
+            pin: true,
+            scrub: 1,
+            invalidateOnRefresh: true,
+          }
+        });
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section className="process-section horizontal-scroll-section" id="process" ref={sectionRef}>
+      <div className="process-heading-sticky">
+        <h2 className="process-heading-title">HOW I WORK</h2>
+        <h3 className="process-heading-subtitle">(MY PROCESS)</h3>
+      </div>
+
+      <div className="horizontal-track-container">
+        <div className="horizontal-track" ref={trackRef}>
           {processSteps.map((step, index) => (
-            <div key={index} className="pipeline-step glass-card">
-              <div className="step-number-tag">{step.id}</div>
-              <div className="step-icon-box">{step.icon}</div>
-              <h3 className="step-title">{step.title}</h3>
-              <p className="step-desc">{step.desc}</p>
+            <div key={index} className="process-card panel interactive" data-cursor="view">
+              <div className="process-card-inner">
+                <div className="node-number">{step.id}</div>
+                <div className="node-icon-box">{step.icon}</div>
+                <div className="node-content">
+                  <h4 className="node-title">{step.title}</h4>
+                  <p className="node-desc">{step.desc}</p>
+                </div>
+              </div>
             </div>
           ))}
         </div>

@@ -1,234 +1,285 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap');
+﻿/* ─── HERO CSS — Synth Era Layout Revamp ─────────────── */
 
-/* --- LIQUID GLASS CENTERED NAV --- */
-.glass-nav-container {
-  position: fixed;
-  top: 32px;
+/* ─── TOP NAV (Minimalist) ───────────────────────────── */
+.synth-nav {
+  position: absolute;
+  top: 40px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 2000;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-.glass-nav-wrapper {
-  position: relative;
-  background: rgba(10, 10, 10, 0.6);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  padding: 6px 4px; 
-  border-radius: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  box-shadow: 
-    inset 0 1px 2px rgba(255, 255, 255, 0.1),
-    0 15px 35px rgba(0, 0, 0, 0.5);
-}
-
-.liquid-glass-border {
-  position: absolute;
-  inset: 0;
-  border-radius: 100px;
-  padding: 1px;
-  background: linear-gradient(
-    180deg, 
-    rgba(255, 255, 255, 0.25) 0%, 
-    rgba(255, 255, 255, 0.05) 100%
-  );
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  -webkit-mask-composite: destination-out;
-  pointer-events: none;
-}
-
-.nav-content {
+  width: 90%;
+  max-width: 1300px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-block: 4px;
-  width: 100%;
+  z-index: 2000;
+  padding: 0 20px;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
 }
 
-.nav-name {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: 0.8rem;
+.synth-nav:hover {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.brand {
+  font-family: 'Space Grotesk', 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: 1px;
   color: #fff;
-  letter-spacing: 1.2px;
-  white-space: nowrap;
-  padding-left: 10px;
-  flex-shrink: 0;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
-.nav-links-group {
-  padding-right: 4px;
+.nav-right-group {
   display: flex;
   align-items: center;
-  gap: 2px;
-  opacity: 0;
+  gap: 48px;
 }
 
-.nav-item {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.78rem;
+.nav-links {
+  display: flex;
+  gap: 36px;
+}
+
+.nav-links a {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
-  padding: 8px 12px;
-  border-radius: 50px;
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-  white-space: nowrap;
+  padding: 6px 0;
+  position: relative;
+  transition: all 0.3s ease;
 }
 
-.nav-item.active {
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--accent-2);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 2px;
+}
+
+.nav-links a:hover {
   color: #fff;
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-}
-
-.nav-item:hover:not(.active) {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.resume-link {
-  background: #fff;
-  color: #000;
-  font-weight: 700;
-  margin-left: 8px;
-}
-
-.resume-link:hover {
-  background: #e5e5e5;
   transform: translateY(-1px);
 }
 
-/* --- HERO SECTION CORE --- */
-.hero {
-  min-height: 100vh;
-  background: #030303;
-  padding: 120px 6%;
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  align-items: center;
-  gap: 80px;
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.btn-outline {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  padding: 12px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  overflow: hidden;
+}
+
+.btn-outline:hover {
+  background: rgba(37, 99, 235, 0.2);
+  border-color: var(--accent-2);
+  box-shadow: 0 0 30px rgba(37, 99, 235, 0.4);
+  transform: translateY(-2px);
+}
+
+/* ─── SYNTH HERO SECTION ─────────────────────────────── */
+.synth-hero {
+  position: relative;
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
   --move-x: 0px;
   --move-y: 0px;
 }
 
-.light-rays {
+/* Smooth Fade-out at Bottom of Hero */
+.synth-hero::after {
+  content: '';
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    circle at 10% 0%, 
-    rgba(59, 130, 246, 0.08) 0%, 
-    transparent 60%
-  );
+  height: 25vh;
+  background: linear-gradient(to bottom, rgba(8, 8, 14, 0) 0%, var(--bg) 100%);
   pointer-events: none;
+  z-index: 20;
+}
+
+/* ─── LAYER 1: MASSIVE BACKGROUND TEXT ───────────────── */
+.bg-massive-text {
+  position: absolute;
+  top: 45%;
+  /* Slightly higher to prevent sliding too low */
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2vmin;
+  width: 100%;
+  pointer-events: none;
 }
 
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.bg-word {
+  font-family: 'Space Grotesk', 'Antonio', sans-serif;
+  font-size: clamp(8rem, 20vw, 22rem);
+  font-weight: 800;
+  line-height: 0.75;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.05);
+  text-transform: uppercase;
+  transition: all 0.4s ease;
 }
 
-.reveal-text { animation: fadeInUp 0.8s ease forwards; }
-.reveal-text-delay { opacity: 0; animation: fadeInUp 0.8s ease 0.3s forwards; }
-.hero-stats { 
-  opacity: 0; 
-  animation: fadeInUp 0.8s ease 0.6s forwards; 
-  display: flex; 
-  align-items: center; 
-  gap: 32px; 
-  margin-top: 40px; 
+.synth-hero:hover .bg-word {
+  -webkit-text-stroke: 1.5px rgba(56, 189, 248, 0.1);
 }
 
-.hero h1 { font-family: "Space Grotesk", sans-serif; font-size: clamp(2.6rem, 4.5vw, 3.6rem); line-height: 1.1; color: #fff; margin: 0; }
-.hero h1 span { background: linear-gradient(120deg, #fff, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.hero p { margin-top: 24px; max-width: 460px; font-family: "Inter", sans-serif; color: rgba(255, 255, 255, 0.65); font-size: 1.1rem; line-height: 1.6; }
-
-.hero-stats strong { font-family: "JetBrains Mono", monospace; font-size: 1.8rem; color: #fff; }
-.hero-stats span { display: block; font-family: "Inter", sans-serif; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255, 255, 255, 0.4); margin-top: 4px; }
-.divider { width: 1px; height: 36px; background: rgba(255, 255, 255, 0.12); }
-
-/* --- S23 ULTRA FRAME: ENHANCED REALISM --- */
-.phone-wrapper { 
-  display: flex; 
-  justify-content: center; 
-  perspective: 2500px; 
-  transition: transform 0.1s ease-out; 
+/* ─── LAYER 2: 3D PHONE MOCKUPS (CENTERED) ────────────── */
+.center-mockup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  z-index: 5;
+  perspective: 2500px;
+  width: 500px;
+  height: 800px;
 }
 
 .s23-ultra-frame {
-  width: 304px; 
-  height: 636px;
-  border-radius: 4px; /* Boxy Ultra corners */
-  background: #080808; /* Deeper Phantom Black */
-  padding: 3px; 
-  position: relative;
-  /* Enhanced depth with multi-layered shadows */
-  box-shadow: 
-    0 40px 100px -20px rgba(0, 0, 0, 0.9),
-    0 10px 20px -5px rgba(0, 0, 0, 0.5),
-    inset 0 0 1px 1px rgba(255, 255, 255, 0.1);
-  transform: rotateY(-10deg) rotateX(2deg);
-  animation: fadeInUp 1s ease 0.4s forwards;
-  opacity: 0;
+  width: 380px;
+  height: 800px;
+  border-radius: 6px;
+  background: linear-gradient(160deg, #0a0a0a 0%, #020202 100%);
+  padding: 5px;
+  position: absolute;
+  transform-style: preserve-3d;
 }
 
-/* Re-designed Armor Aluminum Railing with High Specular Highlights */
+/* Base Orientation for Both Phones (Reference: Tilted Top-Right, Rotated Left) */
+.phone-back {
+  top: 80px;
+  left: 140px;
+  /* GSAP handles rotation */
+  transform: translateZ(-100px) rotateX(15deg) rotateY(-5deg) rotateZ(18deg) scale(0.85);
+  z-index: 1;
+  filter: brightness(0.6) blur(0.5px);
+  /* Make it look farther away */
+  box-shadow:
+    0 0 0 1px rgba(37, 99, 235, 0.3),
+    /* 3D Extrusion (Right and Bottom) */
+    1px 1px 0 #2a2a35,
+    2px 2px 0 #202028,
+    3px 3px 0 #181820,
+    4px 4px 0 #121218,
+    5px 5px 0 #0d0d12,
+    6px 6px 0 #08080c,
+    7px 7px 0 #040406,
+    8px 8px 0 #000000,
+    /* Ambient Shadow */
+    20px 40px 80px -10px rgba(0, 0, 0, 0.9),
+    inset 0 0 1px 1px rgba(255, 255, 255, 0.08);
+}
+
+.phone-front {
+  top: 20px;
+  left: -60px;
+  /* GSAP handles rotation */
+  transform: translateZ(50px) rotateX(18deg) rotateY(15deg) rotateZ(-18deg);
+  z-index: 2;
+  box-shadow:
+    0 0 0 1px rgba(37, 99, 235, 0.4),
+    /* 3D Extrusion (Left and Bottom) */
+    -1px 1px 0 #2a2a35,
+    -2px 2px 0 #202028,
+    -3px 3px 0 #181820,
+    -4px 4px 0 #121218,
+    -5px 5px 0 #0d0d12,
+    -6px 6px 0 #08080c,
+    -7px 7px 0 #040406,
+    -8px 8px 0 #000000,
+    /* Soft colored glow and drop shadow */
+    -30px 50px 120px -20px rgba(0, 0, 0, 1),
+    0 0 100px rgba(37, 99, 235, 0.2),
+    inset 0 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Subtle glow behind phone */
+.center-mockup::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.2) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: -1;
+}
+
 .armor-aluminum-edge {
   position: absolute;
   inset: 0;
-  border-radius: 4px;
-  /* Simulating the chamfered metal edge */
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  background: linear-gradient(
-    115deg,
-    rgba(255, 255, 255, 0.2) 0%, /* Bright highlight on the leading edge */
-    rgba(255, 255, 255, 0.05) 5%,
-    transparent 15%,
-    transparent 85%,
-    rgba(255, 255, 255, 0.08) 95%,
-    rgba(255, 255, 255, 0.15) 100%
-  );
+  border-radius: 6px;
+  background: linear-gradient(115deg,
+      rgba(37, 99, 235, 0.3) 0%,
+      rgba(255, 255, 255, 0.08) 5%,
+      transparent 20%,
+      transparent 80%,
+      rgba(56, 189, 248, 0.15) 95%,
+      rgba(56, 189, 248, 0.25) 100%);
   pointer-events: none;
 }
 
-/* Display Panel: Simulating the Curved Glass Edge */
 .display-panel {
   width: 100%;
   height: 100%;
   background: #000;
-  border-radius: 0px;
+  border-radius: 2px;
   overflow: hidden;
   position: relative;
-  /* Multi-stage inner shadow to mimic the display curvature */
-  box-shadow: 
-    inset 12px 0 25px -15px rgba(255, 255, 255, 0.15),
-    inset -12px 0 25px -15px rgba(255, 255, 255, 0.15),
-    inset 0 0 40px rgba(0, 0, 0, 0.9);
+  box-shadow:
+    inset 12px 0 25px -12px rgba(37, 99, 235, 0.15),
+    inset -12px 0 25px -12px rgba(56, 189, 248, 0.15),
+    inset 0 0 50px rgba(0, 0, 0, 1);
 }
 
 .infinity-o-cutout {
   position: absolute;
-  top: 14px;
+  top: 18px;
   left: 50%;
   transform: translateX(-50%);
-  width: 10px;
-  height: 10px;
-  background: radial-gradient(circle at 30% 30%, #1a1a1a, #020202);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle at 30% 30%, #1a1a2e, #020207);
+  border: 1px solid rgba(37, 99, 235, 0.15);
   border-radius: 50%;
   z-index: 10;
 }
@@ -236,67 +287,281 @@
 .bezel-inner-glow {
   position: absolute;
   inset: 0;
-  border-radius: 0px;
-  /* Tight contact shadow where glass meets metal */
-  box-shadow: inset 0 0 4px rgba(0, 0, 0, 1);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 1);
   pointer-events: none;
   z-index: 5;
 }
 
-/* Enhanced Glass Reflection System */
 .glass-reflection {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    125deg,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(255, 255, 255, 0.02) 15%,
-    transparent 35%,
-    transparent 65%,
-    rgba(255, 255, 255, 0.02) 85%,
-    rgba(255, 255, 255, 0.08) 100%
-  );
+  background: linear-gradient(125deg,
+      rgba(255, 255, 255, 0.06) 0%,
+      rgba(255, 255, 255, 0.01) 15%,
+      transparent 35%);
   pointer-events: none;
   z-index: 6;
 }
 
-.screen { 
-  position: absolute; 
-  inset: 0; 
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover; 
-  opacity: 0; 
-  transition: opacity 1s ease; 
+.screen {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.2s ease;
 }
 
-.screen.active { opacity: 1; }
+.screen.active {
+  opacity: 1;
+}
 
-/* Refined Hardware Buttons */
+/* Hardware buttons */
 .btn-container.right {
   position: absolute;
-  top: 90px;
+  top: 120px;
   right: -2px;
   width: 2px;
-  height: 200px;
+  height: 250px;
   z-index: -1;
 }
 
 .side-button {
-  width: 2.5px;
-  background: linear-gradient(to right, #111, #333, #111);
+  width: 3px;
+  background: linear-gradient(to right, #080f2d, #142a70, #080f2d);
   position: absolute;
   right: 0;
   border-radius: 0 1px 1px 0;
-  box-shadow: 1px 0 3px rgba(0,0,0,0.8);
+  box-shadow: 1px 0 5px rgba(0, 0, 0, 0.9);
 }
 
-.volume-rocker { height: 75px; top: 0; }
-.power-btn { height: 40px; top: 95px; }
+.volume-rocker {
+  height: 90px;
+  top: 0;
+}
 
-/* --- RESPONSIVE --- */
-@media (max-width: 900px) {
-  .hero { grid-template-columns: 1fr; text-align: center; padding-top: 160px; }
-  .s23-ultra-frame { margin-top: 40px; width: 260px; height: 544px; transform: none; }
-  .glass-nav-wrapper { max-width: 95%; width: auto !important; }
+.power-btn {
+  height: 50px;
+  top: 110px;
+}
+
+/* ─── LAYER 3: FOREGROUND OVERLAY TEXT ───────────────── */
+.fg-overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  text-align: center;
+  width: 100%;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fg-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(100px, 35vw, 420px);
+  /* Wide gap to span across the phone */
+  margin: 0;
+}
+
+.text-stroke {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--accent-2);
+  filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.4));
+  font-style: italic;
+  padding-left: 5%;
+}
+
+.text-solid {
+  color: var(--accent);
+  filter: drop-shadow(0 0 15px rgba(37, 99, 235, 0.4));
+  transform: translateY(40px);
+}
+
+.fg-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  color: #fff;
+  align-self: flex-start;
+  padding-left: 20%;
+  margin-top: -20px;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.8));
+}
+
+/* ─── LAYER 4: SIDE CONTENT BLOCKS ───────────────────── */
+.side-blocks-container {
+  position: absolute;
+  bottom: 8%;
+  left: 6%;
+  right: 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  z-index: 15;
+}
+
+.side-content {
+  width: 280px;
+}
+
+.left-block {
+  text-align: left;
+}
+
+.block-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.block-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.6;
+}
+
+.right-block {
+  text-align: left;
+}
+
+.glass-panel {
+  background: rgba(10, 10, 15, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.panel-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.panel-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.stats-mini {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stats-mini strong {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.2rem;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.stats-mini span {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.divider-mini {
+  width: 1px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .s23-ultra-frame {
+    width: 320px;
+    height: 674px;
+  }
+
+  .fg-title {
+    gap: 30vw;
+  }
+}
+
+@media (max-width: 800px) {
+  .synth-nav {
+    justify-content: space-between;
+    top: 20px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .bg-word {
+    font-size: 5rem;
+  }
+
+  .s23-ultra-frame {
+    width: 260px;
+    height: 548px;
+  }
+
+  .fg-overlay-text {
+    top: 65%;
+  }
+
+  .fg-title {
+    gap: 10px;
+    flex-direction: column;
+  }
+
+  .text-solid {
+    transform: translateY(0);
+  }
+
+  .fg-subtitle {
+    align-self: center;
+    padding-left: 0;
+    margin-top: 20px;
+  }
+
+  .side-blocks-container {
+    bottom: 20px;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    text-align: center;
+  }
+
+  .left-block,
+  .right-block {
+    width: 100%;
+    text-align: center;
+  }
+
+  .glass-panel {
+    padding: 16px;
+  }
+
+  .stats-mini {
+    justify-content: center;
+  }
 }

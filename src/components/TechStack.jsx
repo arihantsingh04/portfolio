@@ -23,7 +23,7 @@ export const TechStack = () => {
       </div>
 
       <div className="marquee-container">
-        <div className="marquee-content">
+        <div className="marquee-track">
           {/* Render the list twice for seamless looping */}
           {[...techItems, ...techItems].map((item, idx) => (
             <div key={idx} className="marquee-item">
@@ -32,7 +32,17 @@ export const TechStack = () => {
             </div>
           ))}
         </div>
-        
+
+        <div className="marquee-track-2">
+          {/* Render the list twice for seamless looping, maybe reversed */}
+          {[...techItems.slice().reverse(), ...techItems.slice().reverse()].map((item, idx) => (
+            <div key={idx} className="marquee-item">
+              <img src={item.icon} alt={item.name} className="marquee-icon" />
+              <span className="marquee-text">{item.name}</span>
+            </div>
+          ))}
+        </div>
+
         {/* Subtle Fade Overlays for Depth */}
         <div className="marquee-fade left"></div>
         <div className="marquee-fade right"></div>

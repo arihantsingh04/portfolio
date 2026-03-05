@@ -1,90 +1,212 @@
-﻿/* PROCESS SECTION REVAMP */
-.process-section {
-  padding: 100px 0;
-  background: #030303; /* Pure Black Background */
-}
+﻿/* ─── EXPERTISE / PROCESS SECTION — Horizontal Scroll Revamp ─────── */
 
-.section-header-compact {
+.horizontal-scroll-section {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: transparent;
   display: flex;
   align-items: center;
-  gap: 32px;
-  margin-bottom: 60px;
 }
 
-.section-title-sm {
+.process-heading-sticky {
+  position: absolute;
+  top: 15vh;
+  left: 5vw;
+  z-index: 10;
+}
+
+.process-heading-title {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 2.5rem;
-  color: #fff;
-  white-space: nowrap;
+  font-size: clamp(3rem, 6vw, 6rem);
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.15);
+  margin: 0;
+  letter-spacing: -2px;
 }
 
-.draw-line-horizontal {
-  height: 1px;
-  flex-grow: 1;
-  background: linear-gradient(90deg, #3b82f6, transparent);
+.process-heading-subtitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  margin: -5px 0 0;
+  letter-spacing: 2px;
+  filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.4));
 }
 
-/* PIPELINE GRID */
-.process-pipeline {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3x2 Grid for space efficiency */
-  gap: 24px;
+.horizontal-track-container {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-35%);
+  left: 0;
+  width: 100%;
+  padding-top: 120px;
+  /* Space to not overlap the sticky header immediately */
 }
 
-.pipeline-step {
-  padding: 32px 24px;
-  background: rgba(255, 255, 255, 0.02);
+.horizontal-track {
+  display: flex;
+  gap: 60px;
+  padding: 0 40vw 0 5vw;
+  /* Start with left margin, end with massive right margin to allow full scroll */
+  width: max-content;
+}
+
+/* ─── PROCESS CARD (Cinema Panels) ───────────────────── */
+.process-card {
+  width: 460px;
+  height: 480px;
+  position: relative;
+  border-radius: 24px;
+  background: rgba(12, 12, 18, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
-  transition: border-color 0.3s ease, background 0.3s ease;
-  will-change: transform, opacity;
 }
 
-.pipeline-step:hover {
-  background: rgba(59, 130, 246, 0.03);
-  border-color: rgba(59, 130, 246, 0.4);
-  transform: translateY(-5px) !important; /* Subtle lift */
+.process-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(56, 189, 248, 0.02));
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  border-radius: inherit;
 }
 
-.step-number-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.8rem;
-  color: #3b82f6;
-  margin-bottom: 20px;
+.process-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  border-color: rgba(37, 99, 235, 0.4);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(56, 189, 248, 0.2);
+  background: rgba(16, 16, 24, 0.95);
 }
 
-.step-icon-box {
-  color: #fff;
-  margin-bottom: 16px;
+.process-card:hover::before {
+  opacity: 1;
 }
 
-.step-title {
+.process-card-inner {
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.node-number {
+  position: absolute;
+  top: -40px;
+  right: -20px;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.25rem;
+  font-size: 8rem;
+  font-weight: 800;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.05);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: -1;
+}
+
+.process-card:hover .node-number {
+  -webkit-text-stroke: 2px rgba(56, 189, 248, 0.25);
+  transform: translate(10px, -15px);
+}
+
+.node-icon-box {
+  width: 76px;
+  height: 76px;
+  background: rgba(37, 99, 235, 0.08);
+  border: 1px solid rgba(37, 99, 235, 0.15);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-3);
+  font-size: 2.2rem;
+  margin-bottom: auto;
+  /* Push content to bottom */
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.process-card:hover .node-icon-box {
+  background: var(--accent);
   color: #fff;
-  margin-bottom: 12px;
+  transform: scale(1.15) rotate(8deg);
+  box-shadow: 0 0 24px var(--accent-glow);
+  border-color: var(--accent-2);
 }
 
-.step-desc {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.5);
-  line-height: 1.5;
+.node-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 20px;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
 }
 
-/* RESPONSIVE BREAKPOINTS */
-@media (max-width: 1024px) {
-  .process-pipeline {
-    grid-template-columns: 1fr 1fr; /* 2x3 Grid */
+.node-desc {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.6;
+}
+
+/* ─── RESPONSIVE: Disable Horizontal Scroll on Mobile ────────────────────── */
+@media (max-width: 900px) {
+  .horizontal-scroll-section {
+    height: auto;
+    display: block;
+    padding: 120px 0;
   }
-}
 
-@media (max-width: 600px) {
-  .process-pipeline {
-    grid-template-columns: 1fr; /* Vertical stack for mobile */
+  .process-heading-sticky {
+    position: relative;
+    top: auto;
+    left: auto;
+    text-align: center;
+    margin-bottom: 80px;
+    padding: 0 20px;
   }
-  .section-title-sm {
-    font-size: 1.8rem;
+
+  .horizontal-track-container {
+    position: relative;
+    top: auto;
+    transform: none;
+    padding-top: 0;
+  }
+
+  .horizontal-track {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+    padding: 0 20px;
+    width: 100%;
+  }
+
+  .process-card {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    min-height: 380px;
+  }
+
+  .node-number {
+    top: -30px;
+    right: 0px;
+    font-size: 6rem;
   }
 }

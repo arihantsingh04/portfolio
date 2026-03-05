@@ -1,20 +1,19 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ProjectModal } from './ProjectModal';
 import { Icons } from './Icons';
 import './Projects.css';
 
-// Project Data following the 30-60 second read rule
+gsap.registerPlugin(ScrollTrigger);
+
 const projectsData = [
   {
     id: 1,
     title: "FlowMusic",
     tagline: "High-fidelity YouTube music streaming without the bloat.",
     platform: "Flutter",
-    screenshots: [
-      "/screens/app1.jpg", 
-      "/screens/app2.jpg", 
-      "/screens/app3.jpg"
-    ],
+    screenshots: ["/screens/app1.jpg", "/screens/app2.jpg", "/screens/app3.jpg"],
     bullets: [
       "Bypasses background restrictions for seamless playback",
       "Custom audio engine with glassmorphic visualizers",
@@ -29,11 +28,7 @@ const projectsData = [
     title: "Recall",
     tagline: "Privacy-focused tool for saving and searching screenshots.",
     platform: "Flutter",
-    screenshots: [
-      "/screens/app2.jpg", 
-      "/screens/app3.jpg", 
-      "/screens/app1.jpg"
-    ],
+    screenshots: ["/screens/app2.jpg", "/screens/app3.jpg", "/screens/app1.jpg"],
     bullets: [
       "On-device OCR for instant text search within images",
       "Biometric lock for sensitive information storage",
@@ -48,11 +43,7 @@ const projectsData = [
     title: "StudyMode",
     tagline: "Focus-driven ecosystem for academic management.",
     platform: "Android (Native)",
-    screenshots: [
-      "/screens/app3.jpg", 
-      "/screens/app1.jpg", 
-      "/screens/app2.jpg"
-    ],
+    screenshots: ["/screens/app3.jpg", "/screens/app1.jpg", "/screens/app2.jpg"],
     bullets: [
       "Automated captive portal login for campus WiFi",
       "Real-time class schedule sync with Push Notifications",
@@ -65,48 +56,66 @@ const projectsData = [
 ];
 
 export const Projects = () => {
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedProject, setSelectedProject] = React.useState(null);
+  const sectionRef = useRef(null);
 
-  const handleProjectClick = (project) => {
-    setSelectedProject(project);
-  };
-
-  const closeModal = () => {
-    setSelectedProject(null);
-  };
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.project-row',
+        { opacity: 0, x: -20 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.55,
+          ease: 'power3.out',
+          stagger: 0.12,
+          scrollTrigger: {
+            trigger: '.projects-list',
+            start: 'top 82%',
+            once: true
+          }
+        }
+      );
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section className="projects-section" id="work">
+    <section className="projects-section" id="work" ref={sectionRef}>
       <div className="container">
-        {/* Section Header */}
         <div className="section-header-compact">
           <h2 className="section-title-sm">Selected Work</h2>
-          <div className="draw-line-horizontal"></div>
+          <div className="draw-line-horizontal" />
         </div>
 
-        {/* Minimalist Projects List */}
-        <div className="projects-list">
-          {projectsData.map((project) => (
-            <div 
-              key={project.id} 
-              className="project-row interactive"
-              onClick={() => handleProjectClick(project)}
+        <div className="cinematic-projects-grid">
+          {projectsData.map((project, index) => (
+            <div
+              key={project.id}
+              className="cinematic-card interactive"
+              data-cursor="view"
+              onClick={() => setSelectedProject(project)}
             >
-              <div className="project-main-info">
-                <span className="project-index">0{project.id}</span>
-                <div className="project-title-group">
-                  <h3 className="project-row-title">{project.title}</h3>
+              <div className="card-bg-layer">
+                <img src={project.screenshots[0]} alt={project.title} className="card-bg-img" />
+                <div className="card-bg-overlay"></div>
+              </div>
+
+              <div className="card-content-layer">
+                <div className="card-top-bar">
+                  <span className="project-index">0{project.id}</span>
                   <div className="project-row-tags">
                     <span className="mini-tag">{project.platform}</span>
                   </div>
                 </div>
-              </div>
-              
-              <p className="project-row-desc">{project.tagline}</p>
 
-              <div className="project-row-links">
-                <div className="view-details-btn">
-                  View Detail <Icons.ArrowRight />
+                <div className="card-bottom-bar">
+                  <h3 className="project-row-title">{project.title}</h3>
+                  <p className="project-row-desc">{project.tagline}</p>
+
+                  <div className="view-details-btn">
+                    View Detail <Icons.ArrowRight />
+                  </div>
                 </div>
               </div>
             </div>
@@ -114,11 +123,10 @@ export const Projects = () => {
         </div>
       </div>
 
-      {/* Detail Modal Component */}
       {selectedProject && (
-        <ProjectModal 
-          project={selectedProject} 
-          onClose={closeModal} 
+        <ProjectModal
+          project={selectedProject}
+          onClose={() => setSelectedProject(null)}
         />
       )}
     </section>

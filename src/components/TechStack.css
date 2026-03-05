@@ -1,96 +1,146 @@
-﻿.marquee-section {
+﻿/* ─── TECH STACK MARQUEE — Full Revamp ───────────────── */
+
+.marquee-section {
   padding: 80px 0;
-  background: #030303;
+  background: transparent;
   overflow: hidden;
 }
 
+/* ─── MARQUEE TRACK ────────────────────────────────────── */
 .marquee-container {
   position: relative;
   display: flex;
+  flex-direction: column;
   user-select: none;
-  gap: 40px;
-  padding: 40px 0;
+  padding: 36px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   margin-top: 20px;
+  gap: 20px;
+  overflow: hidden;
 }
 
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  gap: 16px;
+  min-width: 100%;
+  animation: scroll-marquee 28s linear infinite;
+}
+
+/* Second track running backwards to create dual-stream feel */
+.marquee-track-2 {
+  display: flex;
+  flex-shrink: 0;
+  gap: 16px;
+  min-width: 100%;
+  animation: scroll-marquee-back 32s linear infinite;
+  margin-top: 0;
+}
+
+/* Pause on hover */
+.marquee-container:hover .marquee-track,
+.marquee-container:hover .marquee-track-2 {
+  animation-play-state: paused;
+}
+
+/* Legacy class — keep for compatibility */
 .marquee-content {
   display: flex;
   flex-shrink: 0;
-  gap: 60px; /* Space between items */
+  gap: 16px;
   min-width: 100%;
-  animation: scroll-marquee 30s linear infinite;
+  animation: scroll-marquee 28s linear infinite;
 }
 
-/* Pause animation on hover for interactivity */
 .marquee-container:hover .marquee-content {
   animation-play-state: paused;
 }
 
+/* ─── MARQUEE ITEM ─────────────────────────────────────── */
 .marquee-item {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 12px 24px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
-  transition: all 0.3s ease;
+  gap: 14px;
+  padding: 14px 24px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 50px;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
 }
 
 .marquee-item:hover {
-  background: rgba(59, 130, 246, 0.05);
-  border-color: rgba(59, 130, 246, 0.3);
-  transform: translateY(-2px);
+  background: rgba(37, 99, 235, 0.08);
+  border-color: rgba(37, 99, 235, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.12), inset 0 0 0 1px rgba(37, 99, 235, 0.15);
 }
 
 .marquee-icon {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   object-fit: contain;
-  filter: grayscale(1) brightness(1.5); /* Modern desaturated look */
-  transition: filter 0.3s ease;
+  filter: grayscale(1) brightness(1.8);
+  transition: filter 0.35s ease;
+  flex-shrink: 0;
 }
 
 .marquee-item:hover .marquee-icon {
-  filter: grayscale(0) brightness(1); /* Color pops on hover */
+  filter: grayscale(0) brightness(1) drop-shadow(0 0 6px rgba(56, 189, 248, 0.5));
 }
 
 .marquee-text {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.5);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
+  white-space: nowrap;
+  transition: color 0.3s;
 }
 
 .marquee-item:hover .marquee-text {
   color: #fff;
 }
 
-/* INFINITE ANIMATION */
+/* ─── KEYFRAMES ───────────────────────────────────────── */
 @keyframes scroll-marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(calc(-50% - 30px)); } /* Half of total width minus gap */
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-50% - 8px));
+  }
 }
 
-/* FADE EFFECTS FOR EDGES */
+@keyframes scroll-marquee-back {
+  from {
+    transform: translateX(calc(-50% - 8px));
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* ─── EDGE FADES ──────────────────────────────────────── */
 .marquee-fade {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 15%;
+  width: 12%;
   z-index: 2;
   pointer-events: none;
 }
 
 .marquee-fade.left {
   left: 0;
-  background: linear-gradient(to right, #030303, transparent);
+  background: linear-gradient(to right, var(--bg, #08080e), transparent);
 }
 
 .marquee-fade.right {
   right: 0;
-  background: linear-gradient(to left, #030303, transparent);
+  background: linear-gradient(to left, var(--bg, #08080e), transparent);
 }

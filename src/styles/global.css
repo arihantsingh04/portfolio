@@ -200,4 +200,27 @@ html {
   .cursor-dot {
     display: none;
   }
+
+  /* Tighten global container padding on mobile */
+  .container {
+    padding: 0 20px;
+  }
+
+  .section-header-compact {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+
+  .draw-line-horizontal {
+    width: 100%;
+    flex-grow: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
 }

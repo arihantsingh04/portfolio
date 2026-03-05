@@ -144,3 +144,45 @@
   right: 0;
   background: linear-gradient(to left, var(--bg, #08080e), transparent);
 }
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width: 768px) {
+  .marquee-section {
+    padding: 50px 0;
+  }
+
+  .marquee-item {
+    padding: 10px 18px;
+    gap: 10px;
+  }
+
+  .marquee-text {
+    font-size: 0.78rem;
+    letter-spacing: 0.8px;
+  }
+
+  .marquee-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .marquee-container {
+    padding: 28px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .marquee-item {
+    padding: 8px 14px;
+    gap: 8px;
+  }
+
+  .marquee-text {
+    font-size: 0.72rem;
+  }
+
+  .marquee-icon {
+    width: 18px;
+    height: 18px;
+  }
+}

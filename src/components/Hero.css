@@ -496,6 +496,8 @@
 }
 
 /* ─── RESPONSIVE ─────────────────────────────────────── */
+
+/* Tablet & Below (≤ 1100px) */
 @media (max-width: 1100px) {
   .s23-ultra-frame {
     width: 320px;
@@ -503,22 +505,41 @@
   }
 
   .fg-title {
-    gap: 30vw;
+    gap: 28vw;
+  }
+
+  .side-blocks-container {
+    left: 4%;
+    right: 4%;
   }
 }
 
+/* Mobile (≤ 800px) */
 @media (max-width: 800px) {
   .synth-nav {
     justify-content: space-between;
     top: 20px;
+    padding: 0 16px;
   }
 
   .nav-links {
     display: none;
   }
 
+  .btn-outline {
+    padding: 10px 20px;
+    font-size: 0.82rem;
+  }
+
+  /* Watermark text — scale down */
   .bg-word {
-    font-size: 5rem;
+    font-size: clamp(4rem, 18vw, 8rem);
+  }
+
+  /* Make phones smaller and shift them to work at small screens */
+  .center-mockup {
+    transform: translate(-50%, -50%) scale(0.65);
+    top: 45%;
   }
 
   .s23-ultra-frame {
@@ -526,13 +547,20 @@
     height: 548px;
   }
 
+  /* Foreground text — stack vertically */
   .fg-overlay-text {
-    top: 65%;
+    top: 78%;
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+    text-align: center;
   }
 
   .fg-title {
-    gap: 10px;
+    gap: 8px;
     flex-direction: column;
+    font-size: clamp(2rem, 10vw, 3.5rem);
   }
 
   .text-solid {
@@ -542,28 +570,58 @@
   .fg-subtitle {
     align-self: center;
     padding-left: 0;
-    margin-top: 20px;
+    margin-top: 10px;
+    font-size: clamp(0.9rem, 4vw, 1.2rem);
   }
 
+  /* Side blocks — stack vertically at bottom */
   .side-blocks-container {
-    bottom: 20px;
+    bottom: 14px;
+    left: 0;
+    right: 0;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
+    gap: 12px;
+    padding: 0 16px;
     text-align: center;
+  }
+
+  .side-content {
+    width: 100%;
+    max-width: 360px;
   }
 
   .left-block,
   .right-block {
-    width: 100%;
     text-align: center;
   }
 
   .glass-panel {
-    padding: 16px;
+    padding: 14px 18px;
   }
 
   .stats-mini {
     justify-content: center;
+  }
+}
+
+/* Very Small Mobile (≤ 480px) */
+@media (max-width: 480px) {
+  .center-mockup {
+    transform: translate(-50%, -50%) scale(0.5);
+    top: 40%;
+  }
+
+  .fg-overlay-text {
+    top: 72%;
+  }
+
+  .fg-title {
+    font-size: clamp(1.8rem, 9vw, 2.5rem);
+  }
+
+  /* Hide side blocks completely on very small screens to avoid clutter */
+  .side-blocks-container {
+    display: none;
   }
 }

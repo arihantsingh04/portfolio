@@ -169,7 +169,7 @@
   .horizontal-scroll-section {
     height: auto;
     display: block;
-    padding: 120px 0;
+    padding: 80px 0 60px;
   }
 
   .process-heading-sticky {
@@ -177,8 +177,17 @@
     top: auto;
     left: auto;
     text-align: center;
-    margin-bottom: 80px;
+    margin-bottom: 60px;
     padding: 0 20px;
+  }
+
+  .process-heading-title {
+    font-size: clamp(2.2rem, 8vw, 4rem);
+    letter-spacing: -1px;
+  }
+
+  .process-heading-subtitle {
+    font-size: clamp(1.1rem, 4vw, 1.8rem);
   }
 
   .horizontal-track-container {
@@ -192,7 +201,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 60px;
+    gap: 32px;
     padding: 0 20px;
     width: 100%;
   }
@@ -201,12 +210,52 @@
     width: 100%;
     max-width: 480px;
     height: auto;
-    min-height: 380px;
+    min-height: 300px;
+    border-radius: 16px;
+  }
+
+  .process-card-inner {
+    padding: 32px 28px;
   }
 
   .node-number {
     top: -30px;
     right: 0px;
-    font-size: 6rem;
+    font-size: 5rem;
+  }
+
+  .node-title {
+    font-size: 1.5rem;
+  }
+
+  .node-desc {
+    font-size: 1rem;
+  }
+
+  .node-icon-box {
+    width: 60px;
+    height: 60px;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .horizontal-scroll-section {
+    padding: 60px 0 40px;
+  }
+
+  .process-card {
+    min-height: 260px;
+    border-radius: 12px;
+  }
+
+  .process-card-inner {
+    padding: 24px 20px;
+  }
+
+  .node-number {
+    display: none;
+    /* hide ghost number on tiny screens */
   }
 }

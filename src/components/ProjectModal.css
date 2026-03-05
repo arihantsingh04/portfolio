@@ -342,21 +342,70 @@
 
 /* ─── RESPONSIVE ─────────────────────────────────────── */
 @media (max-width: 768px) {
+  .modal-overlay {
+    padding: 12px;
+    align-items: flex-end;
+  }
+
+  .modal-content {
+    max-height: 94vh;
+    border-radius: 20px 20px 16px 16px;
+  }
+
   .modal-grid {
     grid-template-columns: 1fr;
   }
 
   .modal-visuals {
     border-right: none;
-    border-bottom: 1px solid rgba(236, 72, 153, 0.12);
-    border-radius: 24px 24px 0 0;
+    border-bottom: 1px solid rgba(37, 99, 235, 0.12);
+    border-radius: 20px 20px 0 0;
+    padding: 28px 20px;
+  }
+
+  .s23-mini-frame {
+    width: 130px;
+    height: 245px;
   }
 
   .modal-details {
-    padding: 32px 24px 28px;
+    padding: 28px 20px 24px;
+    gap: 20px;
+  }
+
+  .modal-title {
+    font-size: 1.6rem;
   }
 
   .modal-actions {
     flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .modal-content {
+    border-radius: 20px 20px 0 0;
+    max-height: 96vh;
+  }
+
+  .modal-details {
+    padding: 24px 16px 20px;
+  }
+
+  .modal-close {
+    top: 14px;
+    right: 14px;
   }
 }

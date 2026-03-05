@@ -1,5 +1,6 @@
 ﻿import React, { useEffect, useState, useRef } from "react";
 import gsap from "gsap";
+import { BackgroundBeams } from "./BackgroundBeams";
 import "./Hero.css";
 
 const screenshots = [
@@ -109,8 +110,7 @@ export const Hero = () => {
 
     {/* Background Text Scroll Parallax */ }
     gsap.to(bgTextRef.current, {
-      y: 120, // Reduced from 200 to prevent sliding too low
-      opacity: 0.6,
+      y: 120,
       ease: "none",
       scrollTrigger: {
         trigger: heroRef.current,
@@ -170,6 +170,9 @@ export const Hero = () => {
 
       {/* Hero */}
       <section className="synth-hero" id="home" ref={heroRef}>
+
+        {/* Layer 0: Animated Background Beams */}
+        <BackgroundBeams />
 
         {/* Layer 1: Background Massive Text */}
         <div className="bg-massive-text" ref={bgTextRef}>

@@ -1,0 +1,72 @@
+/* ─── BACKGROUND BEAMS ───────────────────────────────── */
+.hero-beams-wrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.hero-beams-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Each beam line pulses up and down */
+.beam-line {
+    animation: beam-pulse linear infinite;
+    transform-origin: center;
+}
+
+@keyframes beam-pulse {
+    0% {
+        opacity: 0;
+        transform: translateY(-80px);
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(80px);
+    }
+}
+
+/* Subtle glow at top */
+.beam-radial-glow {
+    filter: blur(60px);
+    animation: glow-pulse 6s ease-in-out infinite alternate;
+}
+
+@keyframes glow-pulse {
+    0% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Subtle dot-grid overlay texture */
+.hero-beams-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle, rgba(56, 189, 248, 0.10) 1px, transparent 1px);
+    background-size: 80px 80px;
+    background-position: center;
+    /* fade out toward edges */
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, white 30%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, white 30%, transparent 100%);
+}

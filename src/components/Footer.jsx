@@ -1,130 +1,106 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useRef, useEffect } from 'react';
 import { Icons } from './Icons';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Footer.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
+const socialLinks = [
+  {
+    icon: <Icons.Github />,
+    label: 'GitHub',
+    sub: '@arihantsingh04',
+    href: 'https://github.com/arihantsingh04',
+  },
+  {
+    icon: <Icons.Linkedin />,
+    label: 'LinkedIn',
+    sub: '/in/arihantsingh04',
+    href: 'https://www.linkedin.com/in/arihantsingh04/',
+  },
+  {
+    icon: <Icons.Mail />,
+    label: 'Email',
+    sub: 'arihants2004@gmail.com',
+    href: 'mailto:arihants2004@gmail.com',
+  },
+];
+
 export const Footer = () => {
-  const [formData, setFormData] = useState({ name: '', email: '' });
-  const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
-  const [message, setMessage] = useState('');
+  const footerRef = useRef(null);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!formData.name || !formData.email) {
-      setStatus('error');
-      setMessage('Please fill in all fields');
-      return;
-    }
-
-    setStatus('loading');
-    setMessage('');
-
-    try {
-      const response = await fetch('http://172.16.14.68:4001/senddata', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        setStatus('success');
-        setMessage('Message sent successfully!');
-        setFormData({ name: '', email: '' });
-      } else {
-        setStatus('error');
-        setMessage('Failed to send message. Please try again.');
-      }
-    } catch (error) {
-      setStatus('error');
-      setMessage('Connection error. Please check your network.');
-    }
-  };
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.footer-headline span',
+        { y: 80, opacity: 0 },
+        {
+          y: 0, opacity: 1, duration: 1.2, stagger: 0.12, ease: 'power4.out',
+          scrollTrigger: { trigger: footerRef.current, start: 'top 85%', once: true }
+        }
+      );
+      gsap.fromTo('.footer-social-card',
+        { y: 40, opacity: 0 },
+        {
+          y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out',
+          scrollTrigger: { trigger: '.footer-socials', start: 'top 90%', once: true }
+        }
+      );
+    }, footerRef);
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <footer className="footer">
-      <div className="container">
-        <div className="draw-line"></div>
+    <footer className="footer-v2" ref={footerRef}>
 
-        <div className="footer-content">
-          <div>
-            <h2 className="footer-cta-title">
-              Let's Build Something Exceptional <span className="blur-word">Together</span>
-            </h2>
-            <p className="footer-cta-description">
-              Available for freelance projects and full-time opportunities.
-              Let's discuss how we can create something remarkable together.
-            </p>
+      {/* Top accent line */}
+      <div className="footer-accent-line" />
 
-            {/* Contact Form */}
-            <form className="contact-form" onSubmit={handleSubmit}>
-              <div className="form-group">
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Your Name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="form-input"
-                  disabled={status === 'loading'}
-                />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Your Email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="form-input"
-                  disabled={status === 'loading'}
-                />
+      <div className="footer-v2-container">
+
+        {/* Giant CTA */}
+        <div className="footer-cta-block">
+          <p className="footer-eyebrow">LET'S CONNECT</p>
+          <h2 className="footer-headline">
+            <span>Have an idea?</span>
+            <span className="headline-stroke">Let's build</span>
+            <span className="headline-grad">together.</span>
+          </h2>
+          <a href="mailto:arihants2004@gmail.com" className="footer-main-cta">
+            <Icons.Mail />
+            arihants2004@gmail.com
+            <span className="cta-arrow">→</span>
+          </a>
+        </div>
+
+        {/* Social Cards */}
+        <div className="footer-socials">
+          {socialLinks.map((link, i) => (
+            <a
+              key={i}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-social-card"
+            >
+              <div className="social-card-icon">{link.icon}</div>
+              <div className="social-card-text">
+                <span className="social-card-label">{link.label}</span>
+                <span className="social-card-sub">{link.sub}</span>
               </div>
-              <button
-                type="submit"
-                className="submit-btn"
-                disabled={status === 'loading'}
-              >
-                <span>{status === 'loading' ? 'Sending...' : 'Send Message'}</span>
-              </button>
-              {message && (
-                <p className={`form-message ${status}`}>
-                  {message}
-                </p>
-              )}
-            </form>
-
-            <a href="mailto:hello@arihant.dev" className="footer-email interactive">
-              <Icons.Mail />
-              <span>hello@arihant.dev</span>
+              <span className="social-card-arrow">↗</span>
             </a>
-          </div>
-
-          <div className="footer-links">
-            <a href="https://github.com" className="footer-link interactive">
-              <Icons.Github />
-              <span>GitHub</span>
-            </a>
-            <a href="https://linkedin.com" className="footer-link interactive">
-              <Icons.Linkedin />
-              <span>LinkedIn</span>
-            </a>
-            <a href="mailto:hello@arihant.dev" className="footer-link interactive">
-              <Icons.Mail />
-              <span>Email</span>
-            </a>
-          </div>
+          ))}
         </div>
 
-        <div className="footer-bottom">
-          <span>© 2025 Arihant Singh</span>
-          <span>Engineered with Precision</span>
-        </div>
       </div>
+
+      {/* Bottom bar */}
+      <div className="footer-v2-bottom">
+        <span>© {new Date().getFullYear()} Arihant Singh. All rights reserved.</span>
+        <span>Crafted with precision &amp; passion.</span>
+      </div>
+
     </footer>
   );
 };

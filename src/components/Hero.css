@@ -640,7 +640,8 @@
 
   /* Make phones smaller and shift them to work at small screens */
   .center-mockup {
-    transform: translate(-50%, -50%) scale(0.55);
+    left: 50% !important;
+    transform: translate(-50%, -50%) scale(0.55) !important;
     top: 42%;
   }
 
@@ -710,7 +711,8 @@
 /* Very Small Mobile (≤ 480px) */
 @media (max-width: 480px) {
   .center-mockup {
-    transform: translate(-50%, -50%) scale(0.45);
+    left: 50% !important;
+    transform: translate(-50%, -50%) scale(0.45) !important;
     top: 40%;
   }
 
@@ -725,5 +727,40 @@
   /* Hide side blocks completely on very small screens to avoid clutter */
   .side-blocks-container {
     display: none;
+  }
+}
+
+/* ─── FLOATING MUSIC PLAYER — Mobile ─────────────────── */
+@media (max-width: 768px) {
+  .floating-music-player {
+    bottom: 20px;
+    right: 16px;
+    height: 48px;
+    width: 48px;
+  }
+
+  .floating-music-player.expanded {
+    width: 220px;
+  }
+
+  .play-btn {
+    min-width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-music-player {
+    bottom: 16px;
+    right: 12px;
+  }
+
+  .floating-music-player.expanded {
+    width: 190px;
+  }
+
+  .player-title {
+    width: 100px;
+    font-size: 0.78rem;
   }
 }

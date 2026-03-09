@@ -40,21 +40,21 @@ export const Hero = () => {
   // Initialize YouTube IFrame API
   useEffect(() => {
     const initPlayer = () => {
-      if (ytPlayerRef.current) return; // already created
+      if (ytPlayerRef.current) return;
+      if (!ytContainerRef.current) return; // Guard: DOM node not ready yet
       ytPlayerRef.current = new window.YT.Player(ytContainerRef.current, {
         height: '1',
         width: '1',
         videoId: playlist[initialIndex.current].id,
         playerVars: {
-          autoplay: 1,   // Start playing immediately
-          mute: 1,       // Muted — browsers ALWAYS allow muted autoplay
+          autoplay: 1,
+          mute: 1,
           controls: 0,
           loop: 0,
           playsinline: 1,
         },
         events: {
           onReady: (event) => {
-            // Always start playing muted immediately (browser allows this)
             event.target.playVideo();
             setIsPlaying(true);
           },
@@ -68,26 +68,41 @@ export const Hero = () => {
                 return next;
               });
             }
+          },
+          onError: () => {
+            // Skip to next song on error
+            setCurrentSongIndex(prev => {
+              const next = (prev + 1) % playlist.length;
+              if (ytPlayerRef.current) {
+                ytPlayerRef.current.loadVideoById(playlist[next].id);
+                ytPlayerRef.current.playVideo();
+              }
+              return next;
+            });
           }
         }
       });
     };
 
-    if (window.YT && window.YT.Player) {
-      initPlayer();
-    } else {
-      // Load the API script once
-      if (!document.getElementById('yt-api-script')) {
-        const script = document.createElement('script');
-        script.id = 'yt-api-script';
-        script.src = 'https://www.youtube.com/iframe_api';
-        document.head.appendChild(script);
-      }
-      window.onYouTubeIframeAPIReady = () => {
-        ytApiReadyRef.current = true;
+    // Defer so ytContainerRef.current is guaranteed to be in the DOM
+    const timer = setTimeout(() => {
+      if (window.YT && window.YT.Player) {
         initPlayer();
-      };
-    }
+      } else {
+        if (!document.getElementById('yt-api-script')) {
+          const script = document.createElement('script');
+          script.id = 'yt-api-script';
+          script.src = 'https://www.youtube.com/iframe_api';
+          document.head.appendChild(script);
+        }
+        window.onYouTubeIframeAPIReady = () => {
+          ytApiReadyRef.current = true;
+          initPlayer();
+        };
+      }
+    }, 0);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const togglePlayMusic = () => {

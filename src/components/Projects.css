@@ -253,38 +253,89 @@
     letter-spacing: 2px;
 }
 
-/* ─── RESPONSIVE ─────────────────────────────────────── */
-@media (max-width: 768px) {
+/* ─── RESPONSIVE — Projects ──────────────────────────── */
+@media (max-width: 900px) {
+    .proj-cards-row {
+        flex-wrap: wrap;
+        gap: 20px;
+        padding-top: 20px;
+        padding-bottom: 40px;
+    }
+
+    .proj-card {
+        flex: 0 0 calc(50% - 10px);
+        min-width: 0;
+    }
+
+    .proj-card:hover {
+        transform: translateY(-16px) scale(1.02);
+    }
+
+    .proj-card-phones {
+        height: 320px;
+    }
+
+    .proj-card-phone {
+        width: 160px;
+        height: 336px;
+    }
+}
+
+@media (max-width: 600px) {
     .projects-section {
         padding: 60px 0;
     }
 
     .proj-cards-row {
-        margin-top: 40px;
+        flex-direction: column;
+        align-items: stretch;
         gap: 16px;
+        padding-top: 16px;
         padding-bottom: 30px;
-        flex-wrap: wrap;
     }
 
     .proj-card {
-        flex: 0 0 calc(50% - 8px);
-        min-width: 160px;
+        flex: none;
+        width: 100%;
+        min-width: 0;
     }
 
+    /* On mobile, hover-expand is replaced with a static 2-phone layout */
     .proj-card:hover {
-        transform: translateY(-16px) scale(1.01);
+        transform: translateY(-8px) scale(1.01);
     }
 
     .proj-card-phones {
-        height: 300px;
+        height: 280px;
     }
 
     .proj-card-phone {
-        width: 150px;
-        height: 315px;
+        width: 140px;
+        height: 294px;
+    }
+
+    /* Back phone always slightly visible on mobile (no reliable hover) */
+    .proj-card-phone-back {
+        opacity: 0.5;
+        filter: brightness(0.5) blur(0px);
+        transform: translate(50px, 20px) rotateZ(8deg) scale(0.78);
     }
 
     .proj-card-watermark {
         font-size: 3rem;
+        opacity: 0.6;
+        transform: translateX(0);
+    }
+
+    .proj-card-hover-details {
+        max-height: 200px;
+        opacity: 1;
+    }
+
+    .proj-card-title {
+        background: linear-gradient(135deg, #fff 30%, var(--accent-2) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 }

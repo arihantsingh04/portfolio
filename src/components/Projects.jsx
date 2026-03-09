@@ -1,122 +1,120 @@
-﻿import React, { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+﻿import React, { useState } from 'react';
 import { ProjectModal } from './ProjectModal';
-import { Icons } from './Icons';
 import './Projects.css';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const projectsData = [
   {
     id: 1,
     title: "FlowMusic",
-    tagline: "High-fidelity YouTube music streaming without the bloat.",
-    platform: "Flutter",
-    screenshots: ["/screens/app1.jpg", "/screens/app2.jpg", "/screens/app3.jpg"],
+    tagline: "YouTube music streaming, perfected.",
+    platform: "Flutter · 2024",
+    screenshots: ["/screens/app1.jpg", "/screens/app2.jpg"],
+    stack: ["Flutter", "Firebase", "Provider"],
+    impact: "40% less battery drain than competitors.",
     bullets: [
       "Bypasses background restrictions for seamless playback",
       "Custom audio engine with glassmorphic visualizers",
       "Zero-latency search using YouTube Data API v3"
     ],
-    stack: ["Flutter", "Firebase", "Clean Architecture", "Provider"],
-    impact: "Saved 40% more battery than standard web-wrapper apps.",
-    links: { demo: "#", case: "#" }
   },
   {
     id: 2,
     title: "Recall",
-    tagline: "Privacy-focused tool for saving and searching screenshots.",
-    platform: "Flutter",
-    screenshots: ["/screens/app2.jpg", "/screens/app3.jpg", "/screens/app1.jpg"],
+    tagline: "Your screenshots, searchable by text.",
+    platform: "Flutter · 2024",
+    screenshots: ["/screens/app2.jpg", "/screens/app3.jpg"],
+    stack: ["Flutter", "SQLite", "OCR"],
+    impact: "100% private, fully on-device.",
     bullets: [
       "On-device OCR for instant text search within images",
       "Biometric lock for sensitive information storage",
       "Offline-first synchronization with local encryption"
     ],
-    stack: ["Flutter", "SQLite", "Tesseract OCR", "Biometrics"],
-    impact: "100% private: no data ever leaves the local device.",
-    links: { demo: "#", case: "#" }
   },
   {
     id: 3,
     title: "StudyMode",
-    tagline: "Focus-driven ecosystem for academic management.",
-    platform: "Android (Native)",
-    screenshots: ["/screens/app3.jpg", "/screens/app1.jpg", "/screens/app2.jpg"],
+    tagline: "Focus-driven academic ecosystem.",
+    platform: "Android · 2023",
+    screenshots: ["/screens/app3.jpg", "/screens/app1.jpg"],
+    stack: ["Kotlin", "Room DB", "WorkManager"],
+    impact: "500+ active daily users.",
     bullets: [
       "Automated captive portal login for campus WiFi",
       "Real-time class schedule sync with Push Notifications",
       "Integrated PDF annotator for localized notes"
     ],
-    stack: ["Kotlin", "Retrofit", "Room DB", "WorkManager"],
-    impact: "Used daily by 500+ active university students.",
-    links: { demo: "#", case: "#" }
   }
 ];
 
-export const Projects = () => {
-  const [selectedProject, setSelectedProject] = React.useState(null);
-  const sectionRef = useRef(null);
+const Phone = ({ src, alt, className }) => (
+  <div className={`s23-ultra-frame ${className}`}>
+    <div className="armor-aluminum-edge" />
+    <div className="display-panel">
+      <div className="infinity-o-cutout" />
+      <div className="bezel-inner-glow" />
+      <div className="glass-reflection" />
+      <img src={src} alt={alt} className="screen active" />
+    </div>
+    <div className="btn-container right">
+      <div className="side-button volume-rocker" />
+      <div className="side-button power-btn" />
+    </div>
+  </div>
+);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo('.project-row',
-        { opacity: 0, x: -20 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.55,
-          ease: 'power3.out',
-          stagger: 0.12,
-          scrollTrigger: {
-            trigger: '.projects-list',
-            start: 'top 82%',
-            once: true
-          }
-        }
-      );
-    }, sectionRef);
-    return () => ctx.revert();
-  }, []);
+export const Projects = () => {
+  const [selectedProject, setSelectedProject] = useState(null);
 
   return (
-    <section className="projects-section" id="work" ref={sectionRef}>
+    <section className="projects-section" id="work">
       <div className="container">
         <div className="section-header-compact">
           <h2 className="section-title-sm">Selected Work</h2>
           <div className="draw-line-horizontal" />
         </div>
 
-        <div className="cinematic-projects-grid">
-          {projectsData.map((project, index) => (
+        <div className="proj-cards-row">
+          {projectsData.map((project) => (
             <div
               key={project.id}
-              className="cinematic-card interactive"
-              data-cursor="view"
+              className="proj-card"
               onClick={() => setSelectedProject(project)}
             >
-              <div className="card-bg-layer">
-                <img src={project.screenshots[0]} alt={project.title} className="card-bg-img" />
-                <div className="card-bg-overlay"></div>
+              {/* Watermark — slides in on hover */}
+              <div className="proj-card-watermark">{project.title}</div>
+
+              {/* Phone showcase area */}
+              <div className="proj-card-phones">
+                {/* Back phone: hidden by default, slides in on hover */}
+                <Phone
+                  src={project.screenshots[1] || project.screenshots[0]}
+                  alt={`${project.title} back`}
+                  className="proj-card-phone proj-card-phone-back"
+                />
+                {/* Front phone: always visible */}
+                <Phone
+                  src={project.screenshots[0]}
+                  alt={`${project.title} front`}
+                  className="proj-card-phone proj-card-phone-front"
+                />
               </div>
 
-              <div className="card-content-layer">
-                <div className="card-top-bar">
-                  <span className="project-index">0{project.id}</span>
-                  <div className="project-row-tags">
-                    <span className="mini-tag">{project.platform}</span>
-                  </div>
-                </div>
+              {/* Card footer — always visible */}
+              <div className="proj-card-footer">
+                <h3 className="proj-card-title">{project.title}</h3>
+                <p className="proj-card-platform">{project.platform}</p>
+              </div>
 
-                <div className="card-bottom-bar">
-                  <h3 className="project-row-title">{project.title}</h3>
-                  <p className="project-row-desc">{project.tagline}</p>
-
-                  <div className="view-details-btn">
-                    View Detail <Icons.ArrowRight />
-                  </div>
+              {/* Hover-only details */}
+              <div className="proj-card-hover-details">
+                <p className="proj-card-tagline">{project.tagline}</p>
+                <div className="proj-card-stack">
+                  {project.stack.map((s, i) => (
+                    <span key={i} className="mini-tag">{s}</span>
+                  ))}
                 </div>
+                <span className="proj-card-cta">View Project →</span>
               </div>
             </div>
           ))}

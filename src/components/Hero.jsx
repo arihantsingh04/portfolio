@@ -42,25 +42,23 @@ export const Hero = () => {
     const initPlayer = () => {
       if (ytPlayerRef.current) return; // already created
       ytPlayerRef.current = new window.YT.Player(ytContainerRef.current, {
-        height: '0',
-        width: '0',
+        height: '1',
+        width: '1',
         videoId: playlist[initialIndex.current].id,
         playerVars: {
-          autoplay: 0,
+          autoplay: 1,   // Start playing immediately
+          mute: 1,       // Muted — browsers ALWAYS allow muted autoplay
           controls: 0,
           loop: 0,
-          mute: 0,
+          playsinline: 1,
         },
         events: {
-          onReady: () => {
-            // If user already interacted before player was ready, start immediately
-            if (hasInteractedRef.current) {
-              ytPlayerRef.current.playVideo();
-              setIsPlaying(true);
-            }
+          onReady: (event) => {
+            // Always start playing muted immediately (browser allows this)
+            event.target.playVideo();
+            setIsPlaying(true);
           },
           onStateChange: (event) => {
-            // When track ends, go to next
             if (event.data === window.YT.PlayerState.ENDED) {
               setCurrentSongIndex(prev => {
                 const next = (prev + 1) % playlist.length;
@@ -94,6 +92,8 @@ export const Hero = () => {
 
   const togglePlayMusic = () => {
     if (!ytPlayerRef.current) return;
+    ytPlayerRef.current.unMute();
+    ytPlayerRef.current.setVolume(40);
     if (isPlaying) {
       ytPlayerRef.current.pauseVideo();
       setIsPlaying(false);
@@ -267,57 +267,36 @@ export const Hero = () => {
     };
   }, []);
 
-  // Auto-start music on first user interaction (browser requires a user gesture)
+  // Unmute on first user interaction (player already playing muted from onReady)
   useEffect(() => {
-    let started = false;
-    const startMusic = () => {
-      if (started) return;
-      started = true;
-      hasInteractedRef.current = true;
-
-      // Try to play immediately
-      const attemptPlay = () => {
-        try {
-          if (ytPlayerRef.current && typeof ytPlayerRef.current.playVideo === 'function') {
-            const state = ytPlayerRef.current.getPlayerState?.();
-            // State -1 = unstarted, 5 = video cued — both are safe to play
-            ytPlayerRef.current.playVideo();
-            setIsPlaying(true);
-            return true;
-          }
-        } catch (e) { }
-        return false;
-      };
-
-      if (!attemptPlay()) {
-        // Retry every 300ms for up to 5 seconds in case player isn't ready yet
-        let attempts = 0;
-        const retryInterval = setInterval(() => {
-          attempts++;
-          if (attemptPlay() || attempts >= 16) {
-            clearInterval(retryInterval);
-          }
-        }, 300);
+    let unmuted = false;
+    const unmuteSong = () => {
+      if (unmuted) return;
+      if (ytPlayerRef.current?.unMute) {
+        ytPlayerRef.current.unMute();
+        ytPlayerRef.current.setVolume(40);
+        unmuted = true;
+        window.removeEventListener('click', unmuteSong);
+        window.removeEventListener('mousemove', unmuteSong);
+        window.removeEventListener('scroll', unmuteSong);
+        window.removeEventListener('keydown', unmuteSong);
       }
-
-      window.removeEventListener('click', startMusic);
-      window.removeEventListener('mousemove', startMusic);
-      window.removeEventListener('scroll', startMusic);
-      window.removeEventListener('keydown', startMusic);
     };
 
-    window.addEventListener('click', startMusic);
-    window.addEventListener('mousemove', startMusic);
-    window.addEventListener('scroll', startMusic);
-    window.addEventListener('keydown', startMusic);
+    window.addEventListener('click', unmuteSong);
+    window.addEventListener('mousemove', unmuteSong);
+    window.addEventListener('scroll', unmuteSong);
+    window.addEventListener('keydown', unmuteSong);
 
     return () => {
-      window.removeEventListener('click', startMusic);
-      window.removeEventListener('mousemove', startMusic);
-      window.removeEventListener('scroll', startMusic);
-      window.removeEventListener('keydown', startMusic);
+      window.removeEventListener('click', unmuteSong);
+      window.removeEventListener('mousemove', unmuteSong);
+      window.removeEventListener('scroll', unmuteSong);
+      window.removeEventListener('keydown', unmuteSong);
     };
   }, []);
+
+
 
   return (
     <>

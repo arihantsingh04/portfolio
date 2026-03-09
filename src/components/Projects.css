@@ -148,8 +148,8 @@
     opacity: 1;
     filter: brightness(0.65) blur(0px);
     transform:
-        translate(30px, -15px)
-        /* push right */
+        translate(75px, -15px)
+        /* push further right for more exposure */
         translateZ(-40px) rotateX(10deg) rotateY(-8deg) rotateZ(14deg) scale(0.84);
     box-shadow:
         0 0 0 1px rgba(37, 99, 235, 0.3),

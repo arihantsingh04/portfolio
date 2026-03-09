@@ -601,9 +601,8 @@
 
 /* Tablet & Below (≤ 1100px) */
 @media (max-width: 1100px) {
-  .s23-ultra-frame {
-    width: 320px;
-    height: 674px;
+  .center-mockup {
+    transform: translate(-50%, -50%) scale(0.7) !important;
   }
 
   .fg-title {
@@ -638,16 +637,11 @@
     font-size: clamp(4rem, 18vw, 8rem);
   }
 
-  /* Make phones smaller and shift them to work at small screens */
+  /* Scale the entire 3D rig together instead of resizing individual phones */
   .center-mockup {
     left: 50% !important;
-    transform: translate(-50%, -50%) scale(0.55) !important;
     top: 42%;
-  }
-
-  .s23-ultra-frame {
-    width: 260px;
-    height: 548px;
+    transform: translate(-50%, -50%) scale(0.55) !important;
   }
 
   /* Foreground text — stack vertically */

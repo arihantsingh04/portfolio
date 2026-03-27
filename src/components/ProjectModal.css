@@ -1,27 +1,39 @@
 /* ─── PROJECT MODAL — Full Revamp ───────────────────── */
 
+.modal-splash {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.splash-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(3rem, 8vw, 8rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  background: linear-gradient(120deg, #fff 40%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 0 20px;
+}
 .modal-overlay {
   position: fixed;
   inset: 0;
   background: rgba(8, 8, 14, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  z-index: 9999;
+  z-index: 99999;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
-  animation: fadeInOverlay 0.3s ease forwards;
-}
-
-@keyframes fadeInOverlay {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
 }
 
 .modal-content {
@@ -39,25 +51,12 @@
     0 40px 100px rgba(0, 0, 0, 0.9),
     0 0 80px rgba(37, 99, 235, 0.08);
   position: relative;
-  animation: slideUpModal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   display: flex;
   /* We make the content itself a flex container */
 }
 
 .modal-content::-webkit-scrollbar {
   display: none;
-}
-
-@keyframes slideUpModal {
-  from {
-    opacity: 0;
-    transform: translateY(32px) scale(0.97);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
 }
 
 .modal-close {
@@ -96,7 +95,7 @@
 
 /* ─── VISUAL SIDE ─────────────────────────────────────── */
 .modal-visuals {
-  flex: 1.2;
+  flex: 0.8;
   background: radial-gradient(circle at center, rgba(37, 99, 235, 0.15) 0%, transparent 70%), #08080e;
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
@@ -107,9 +106,9 @@
 }
 
 .s23-mini-frame {
-  width: 320px;
-  height: 674px;
-  /* Much larger now since modal is huge */
+  width: 260px;
+  height: 547px;
+  /* Scaled down to use less width */
   background: #050508;
   border-radius: 40px;
   padding: 8px;
@@ -174,7 +173,7 @@
 
 /* ─── DETAILS SIDE ────────────────────────────────────── */
 .modal-details {
-  flex: 1;
+  flex: 1.4;
   padding: 80px 60px;
   display: flex;
   flex-direction: column;

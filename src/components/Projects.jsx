@@ -1,5 +1,6 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { ProjectModal } from './ProjectModal';
+import { AnimatePresence } from 'framer-motion';
 import './Projects.css';
 
 const projectsData = [
@@ -88,13 +89,13 @@ export const Projects = () => {
               <div className="proj-card-phones">
                 {/* Back phone: hidden by default, slides in on hover */}
                 <Phone
-                  src={project.screenshots[1] || project.screenshots[0]}
+                  src={project.screenshots?.[1] || project.screenshots?.[0] || '/screens/app2.jpg'}
                   alt={`${project.title} back`}
                   className="proj-card-phone proj-card-phone-back"
                 />
                 {/* Front phone: always visible */}
                 <Phone
-                  src={project.screenshots[0]}
+                  src={project.screenshots?.[0] || '/screens/app1.jpg'}
                   alt={`${project.title} front`}
                   className="proj-card-phone proj-card-phone-front"
                 />
@@ -110,7 +111,7 @@ export const Projects = () => {
               <div className="proj-card-hover-details">
                 <p className="proj-card-tagline">{project.tagline}</p>
                 <div className="proj-card-stack">
-                  {project.stack.map((s, i) => (
+                  {project.stack?.map((s, i) => (
                     <span key={i} className="mini-tag">{s}</span>
                   ))}
                 </div>
@@ -121,12 +122,14 @@ export const Projects = () => {
         </div>
       </div>
 
-      {selectedProject && (
-        <ProjectModal
-          project={selectedProject}
-          onClose={() => setSelectedProject(null)}
-        />
-      )}
+      <AnimatePresence>
+        {selectedProject && (
+          <ProjectModal 
+            project={selectedProject} 
+            onClose={() => setSelectedProject(null)} 
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 };

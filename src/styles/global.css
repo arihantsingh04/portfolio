@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Bebas+Neue&family=Antonio:wght@700&display=swap');
 
 :root {
@@ -106,7 +106,7 @@ html {
   border: 1.5px solid var(--accent-2);
   border-radius: 50%;
   pointer-events: none;
-  z-index: 10000;
+  z-index: 100000;
   mix-blend-mode: normal;
   transition: width 0.2s, height 0.2s, border-color 0.2s, background 0.2s;
   transform: translate(-50%, -50%);
@@ -126,7 +126,7 @@ html {
   background: var(--accent-2);
   border-radius: 50%;
   pointer-events: none;
-  z-index: 10001;
+  z-index: 100001;
   box-shadow: 0 0 14px var(--accent-2-glow), 0 0 28px var(--accent-2-glow);
   transform: translate(-50%, -50%);
 }

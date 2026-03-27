@@ -1,7 +1,7 @@
 ﻿/* ─── PROJECTS SECTION — Horizontal Hover-Pop Cards ───── */
 
 .projects-section {
-    padding: 100px 0;
+    padding: 100px 0 40px 0;
     background: transparent;
     position: relative;
     z-index: 10;

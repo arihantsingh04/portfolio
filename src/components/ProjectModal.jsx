@@ -6,6 +6,7 @@ import './ProjectModal.css';
 
 export const ProjectModal = ({ project, onClose }) => {
   const [showDetails, setShowDetails] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(0);
 
   // Prevent scrolling when modal is open
   useEffect(() => {
@@ -16,6 +17,11 @@ export const ProjectModal = ({ project, onClose }) => {
       clearTimeout(timer);
     };
   }, []);
+
+  // Only show text before the first dash for the splash
+  const splashName = project.title.split('-')[0].trim();
+
+  const screenshots = project.screenshots || [];
 
   const modalNode = (
     <motion.div 
@@ -36,7 +42,7 @@ export const ProjectModal = ({ project, onClose }) => {
             exit={{ scale: 1.2, opacity: 0, filter: 'blur(10px)' }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <h1 className="splash-title">{project.title}</h1>
+            <h1 className="splash-title">{splashName}</h1>
           </motion.div>
         ) : (
           <motion.div 
@@ -51,8 +57,24 @@ export const ProjectModal = ({ project, onClose }) => {
             <button className="modal-close" onClick={onClose}>×</button>
             
             <div className="modal-grid">
-              {/* 1 & 2: Identity & Visual Preview */}
+              {/* Vertical thumb strip + phone frame */}
               <div className="modal-visuals">
+                {/* Vertical scrollable thumbnail strip */}
+                {screenshots.length > 1 && (
+                  <div className="media-thumbstrip">
+                    {screenshots.map((img, i) => (
+                      <button
+                        key={i}
+                        className={`media-thumb ${i === selectedImage ? 'active' : ''}`}
+                        onClick={() => setSelectedImage(i)}
+                      >
+                        <img src={img} alt={`Thumbnail ${i + 1}`} />
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* Phone frame with selected screenshot */}
                 <motion.div 
                   className="s23-mini-frame" 
                   initial={{ opacity: 0, y: 30 }}
@@ -60,11 +82,15 @@ export const ProjectModal = ({ project, onClose }) => {
                   transition={{ delay: 0.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <div className="s23-inner">
-                    <div className="screenshot-carousel">
-                      {project.screenshots?.map((img, i) => (
-                        <img key={i} src={img} alt="Preview" />
-                      )) || <p style={{ padding: '20px', color: 'gray' }}>No screenshots uploaded.</p>}
-                    </div>
+                    {screenshots.length > 0 ? (
+                      <img 
+                        src={screenshots[selectedImage]} 
+                        alt={`${project.title} preview`} 
+                        className="phone-screen-img"
+                      />
+                    ) : (
+                      <p className="media-empty">No screenshots uploaded.</p>
+                    )}
                   </div>
                 </motion.div>
               </div>

@@ -16,8 +16,8 @@ const socialLinks = [
   {
     icon: <Icons.Linkedin />,
     label: 'LinkedIn',
-    sub: '/in/arihantsingh04',
-    href: 'https://www.linkedin.com/in/arihantsingh04/',
+    sub: '/in/arihantsinghind',
+    href: 'https://www.linkedin.com/in/arihantsinghind/',
   },
   {
     icon: <Icons.Mail />,

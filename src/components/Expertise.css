@@ -12,7 +12,7 @@
 
 .process-heading-sticky {
   position: absolute;
-  top: 15vh;
+  top: 10vh;
   left: 5vw;
   z-index: 10;
 }
@@ -47,7 +47,7 @@
   transform: translateY(-35%);
   left: 0;
   width: 100%;
-  padding-top: 120px;
+  padding-top: 40px;
   /* Space to not overlap the sticky header immediately */
 }
 
@@ -169,7 +169,7 @@
   .horizontal-scroll-section {
     height: auto;
     display: block;
-    padding: 80px 0 60px;
+    padding: 50px 0 60px;
   }
 
   .process-heading-sticky {

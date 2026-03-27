@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ProjectModal } from './ProjectModal';
 import { AnimatePresence } from 'framer-motion';
+import { supabase } from '../lib/supabase';
 import './Projects.css';
 
-const projectsData = [
+const fallbackProjectsData = [
   {
     id: 1,
     title: "FlowMusic",
@@ -66,6 +67,38 @@ const Phone = ({ src, alt, className }) => (
 
 export const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
+  const [projectsToRender, setProjectsToRender] = useState(fallbackProjectsData);
+  const [showAll, setShowAll] = useState(false);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        if (!supabase) return; // Fallback to initial state
+        const { data, error } = await supabase
+          .from('projects')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error || !data || data.length === 0) {
+          console.warn("Using fallback static project data.");
+          setProjectsToRender(fallbackProjectsData);
+        } else {
+          setProjectsToRender(data);
+        }
+      } catch (err) {
+        console.warn("Using fallback static project data due to network error:", err);
+        setProjectsToRender(fallbackProjectsData);
+      }
+    };
+    fetchProjects();
+  }, []);
+
+  const top3 = projectsToRender.filter(p => p.is_highlight).slice(0, 3);
+  // If no highlights set, fallback to the first 3
+  const displayedHighlights = top3.length > 0 ? top3 : projectsToRender.slice(0, 3);
+  
+  const others = projectsToRender.filter(p => !displayedHighlights.find(h => h.id === p.id));
+  const currentViewList = showAll ? [...displayedHighlights, ...others] : displayedHighlights;
 
   return (
     <section className="projects-section" id="work">
@@ -75,8 +108,8 @@ export const Projects = () => {
           <div className="draw-line-horizontal" />
         </div>
 
-        <div className="proj-cards-row">
-          {projectsData.map((project) => (
+        <div className="proj-cards-row" style={{ flexWrap: 'wrap', justifyContent: 'center' }}>
+          {currentViewList.map((project) => (
             <div
               key={project.id}
               className="proj-card"
@@ -120,6 +153,18 @@ export const Projects = () => {
             </div>
           ))}
         </div>
+        
+        {others.length > 0 && (
+          <div style={{ textAlign: 'center', marginTop: '40px' }}>
+            <button 
+              className="btn-outline" 
+              onClick={() => setShowAll(!showAll)}
+              style={{ cursor: 'pointer', padding: '12px 24px' }}
+            >
+              {showAll ? 'Show Less' : `View All Projects (${others.length} More)`}
+            </button>
+          </div>
+        )}
       </div>
 
       <AnimatePresence>

@@ -1,12 +1,12 @@
-﻿import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import gsap from "gsap";
 import { BackgroundBeams } from "./BackgroundBeams";
+import { supabase } from '../lib/supabase';
 import "./Hero.css";
 
-const screenshots = [
-  "/screens/app1.jpg",
-  "/screens/app2.jpg",
-  "/screens/app3.jpg",
+const fallbackScreenshots = [
+  ["/screens/app1.jpg", "/screens/app2.jpg"],
+  ["/screens/app2.jpg", "/screens/app3.jpg"],
 ];
 
 const playlist = [
@@ -18,6 +18,34 @@ const playlist = [
 
 export const Hero = () => {
   const [active, setActive] = useState(0);
+  const [dynamicScreenshots, setDynamicScreenshots] = useState(fallbackScreenshots);
+
+  useEffect(() => {
+    const fetchHeroScreenshots = async () => {
+      if (!supabase) return;
+      try {
+        const { data, error } = await supabase
+          .from('projects')
+          .select('hero_selection')
+          .not('hero_selection', 'is', null);
+        
+        if (error) throw error;
+        
+        if (data && data.length > 0) {
+          const pairs = data
+            .filter(p => p.hero_selection && p.hero_selection.length === 2)
+            .map(p => p.hero_selection);
+          
+          if (pairs.length > 0) {
+            setDynamicScreenshots(pairs);
+          }
+        }
+      } catch (err) {
+        console.warn("Using fallback static hero screenshots due to network error:", err);
+      }
+    };
+    fetchHeroScreenshots();
+  }, []);
 
   // Music Player State
   const [isPlaying, setIsPlaying] = useState(false);
@@ -130,10 +158,7 @@ export const Hero = () => {
 
   useEffect(() => {
 
-    /* Screenshot carousel */
-    const interval = setInterval(() => {
-      setActive(prev => (prev + 1) % screenshots.length);
-    }, 3500);
+    /* Screenshot carousel - moved to separate useEffect below to avoid stale indices */
 
     // Initially hide everything (so it doesn't blink before the timeline starts)
     gsap.set([
@@ -269,7 +294,6 @@ export const Hero = () => {
     }
 
     return () => {
-      clearInterval(interval);
       window.removeEventListener('mousemove', handleMouseMove);
       if (frontEl) {
         frontEl.removeEventListener("mouseenter", onFrontEnter);
@@ -281,6 +305,17 @@ export const Hero = () => {
       }
     };
   }, []);
+
+  // Synchronized Screenshot Carousel Loop
+  useEffect(() => {
+    if (dynamicScreenshots.length <= 1) return;
+    
+    const interval = setInterval(() => {
+      setActive(prev => (prev + 1) % dynamicScreenshots.length);
+    }, 4500); // Relaxed loop timing
+
+    return () => clearInterval(interval);
+  }, [dynamicScreenshots.length]);
 
   // Unmute on first user interaction (player already playing muted from onReady)
   useEffect(() => {
@@ -378,12 +413,12 @@ export const Hero = () => {
               <div className="infinity-o-cutout" />
               <div className="bezel-inner-glow" />
               <div className="glass-reflection" />
-              {screenshots.map((src, i) => (
+              {dynamicScreenshots.map((pair, i) => (
                 <img
                   key={i}
-                  src={src}
+                  src={Array.isArray(pair) ? pair[1] : pair}
                   alt={`App Screenshot ${i + 1}`}
-                  className={`screen ${i === ((active + 1) % screenshots.length) ? 'active' : ''}`}
+                  className={`screen ${i === active ? 'active' : ''}`}
                 />
               ))}
             </div>
@@ -400,10 +435,10 @@ export const Hero = () => {
               <div className="infinity-o-cutout" />
               <div className="bezel-inner-glow" />
               <div className="glass-reflection" />
-              {screenshots.map((src, i) => (
+              {dynamicScreenshots.map((pair, i) => (
                 <img
                   key={i}
-                  src={src}
+                  src={Array.isArray(pair) ? pair[0] : pair}
                   alt={`App Screenshot ${i + 1}`}
                   className={`screen ${i === active ? 'active' : ''}`}
                 />
